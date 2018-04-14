@@ -50,8 +50,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('hoge', $json['name']);
         $this->assertEquals('ほげほげ', $json['caption']);
         $this->assertEquals('2018-01-01', $json['released_on']);
-        $this->assertEquals('2018-01-01T00:00:00+09:00', $json['created_at']);
-        $this->assertEquals('2018-01-02T00:00:00+09:00', $json['updated_at']);
+        $this->assertEquals((new \DateTime('2018-01-01 00:00:00'))->format(\DateTime::ATOM), $json['created_at']);
+        $this->assertEquals((new \DateTime('2018-01-02 00:00:00'))->format(\DateTime::ATOM), $json['updated_at']);
     }
 
     public function test_toJson()
@@ -81,8 +81,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('hoge', $json['name']);
         $this->assertEquals('ほげほげ', $json['caption']);
         $this->assertEquals('2018-01-01', $json['released_on']);
-        $this->assertEquals('2018-01-01T00:00:00+09:00', $json['created_at']);
-        $this->assertEquals('2018-01-02T00:00:00+09:00', $json['updated_at']);
+        $this->assertEquals((new \DateTime('2018-01-01 00:00:00'))->format(\DateTime::ATOM), $json['created_at']);
+        $this->assertEquals((new \DateTime('2018-01-02 00:00:00'))->format(\DateTime::ATOM), $json['updated_at']);
     }
 
     public function test_toArray()
