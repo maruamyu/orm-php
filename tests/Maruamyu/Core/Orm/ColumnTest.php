@@ -39,4 +39,28 @@ class ColumnTest extends \PHPUnit\Framework\TestCase
         $column2 = new Column('name_kana', Column::DATA_TYPE_STRING, false, 'nameKana');
         $this->assertEquals('nameKana', $column2->getPropertyName());
     }
+
+    public function test_isSkipOnInsert()
+    {
+        $column = new Column('name');
+        $this->assertFalse($column->isSkipOnInsert());
+
+        $column2 = new Column('auto_id', Column::DATA_TYPE_DATETIME, true, 'autoId', Column::OPTIONS_SKIP_ON_INSERT);
+        $this->assertTrue($column2->isSkipOnInsert());
+
+        $column3 = new Column('updated_at', Column::DATA_TYPE_DATETIME, true, 'updatedAt', (Column::OPTIONS_SKIP_ON_INSERT | Column::OPTIONS_SKIP_ON_UPDATE));
+        $this->assertTrue($column3->isSkipOnInsert());
+    }
+
+    public function test_isSkipOnUpdate()
+    {
+        $column = new Column('name');
+        $this->assertFalse($column->isSkipOnUpdate());
+
+        $column2 = new Column('auto_id', Column::DATA_TYPE_DATETIME, true, 'autoId', Column::OPTIONS_SKIP_ON_INSERT);
+        $this->assertFalse($column2->isSkipOnUpdate());
+
+        $column3 = new Column('updated_at', Column::DATA_TYPE_DATETIME, true, 'updatedAt', Column::OPTIONS_SKIP_ON_INSERT_OR_UPDATE);
+        $this->assertTrue($column3->isSkipOnUpdate());
+    }
 }

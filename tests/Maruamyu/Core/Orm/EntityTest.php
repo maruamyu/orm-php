@@ -257,8 +257,8 @@ class HogeEntity extends EntityAbstract
             'name' => new Column('name', Column::DATA_TYPE_STRING, true),
             'caption' => new Column('caption', Column::DATA_TYPE_STRING, false),
             'released_on' => new Column('released_on', Column::DATA_TYPE_DATE, false, 'releasedOn'),
-            'created_at' => new Column('created_at', Column::DATA_TYPE_DATETIME, false, 'createdAt'),
-            'updated_at' => new Column('updated_at', Column::DATA_TYPE_DATETIME, false, 'updatedAt'),
+            'created_at' => new Column('created_at', Column::DATA_TYPE_DATETIME, false, 'createdAt', Column::OPTIONS_SKIP_ON_INSERT_OR_UPDATE),
+            'updated_at' => new Column('updated_at', Column::DATA_TYPE_DATETIME, false, 'updatedAt', Column::OPTIONS_SKIP_ON_INSERT_OR_UPDATE),
         ];
     }
 

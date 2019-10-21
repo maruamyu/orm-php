@@ -118,6 +118,9 @@ abstract class RepositoryAbstract implements RepositoryInterface
                 continue;
             }
             $bindFrom = $column->getPropertyName();
+            if ($column->isSkipOnInsert() && is_null($entity->$bindFrom)) {
+                continue;
+            }
             $dataType = $column->getDataType();
             $succeeded = $statement->bindValue($columnName,
                 static::convertToPDOBindValue($entity->$bindFrom, $dataType),
@@ -154,6 +157,10 @@ abstract class RepositoryAbstract implements RepositoryInterface
             if ($columnName === $autoIncrementColumnName) {
                 continue;
             }
+            $bindFrom = $column->getPropertyName();
+            if ($column->isSkipOnInsert() && is_null($entity->$bindFrom)) {
+                continue;
+            }
             $sqlColumnNameList[] = '`' . $columnName . '`';
             $sqlBindTokenList[] = ':' . $columnName;
         }
@@ -182,6 +189,9 @@ abstract class RepositoryAbstract implements RepositoryInterface
         foreach ($entities as $idx => $entity) {
             foreach ($columnMap as $columnName => $column) {
                 if ($columnName === $autoIncrementColumnName) {
+                    continue;
+                }
+                if ($column->isSkipOnInsert()) {
                     continue;
                 }
                 $bindFrom = $column->getPropertyName();
@@ -218,6 +228,9 @@ abstract class RepositoryAbstract implements RepositoryInterface
         $sqlColumnNameList = [];
         foreach ($columnMap as $columnName => $column) {
             if ($columnName === $autoIncrementColumnName) {
+                continue;
+            }
+            if ($column->isSkipOnInsert()) {
                 continue;
             }
             $columnNameList[] = $columnName;
@@ -258,6 +271,10 @@ abstract class RepositoryAbstract implements RepositoryInterface
             if (isset($isPrimaryKeyColumnName[$columnName])) {
                 continue;
             }
+            $bindFrom = $column->getPropertyName();
+            if ($column->isSkipOnUpdate() && is_null($entity->$bindFrom)) {
+                continue;
+            }
             if ($entity->columnIsModified($columnName)) {
                 $isUpdatedColumnName[$columnName] = true;
                 $sqlUpdateColumnList[] = '`' . $columnName . '` = :' . $columnName . '';
@@ -278,6 +295,9 @@ abstract class RepositoryAbstract implements RepositoryInterface
                 continue;
             }
             $bindFrom = $column->getPropertyName();
+            if ($column->isSkipOnUpdate() && is_null($entity->$bindFrom)) {
+                continue;
+            }
             $dataType = $column->getDataType();
             $succeeded = $statement->bindValue($columnName,
                 static::convertToPDOBindValue($entity->$bindFrom, $dataType),

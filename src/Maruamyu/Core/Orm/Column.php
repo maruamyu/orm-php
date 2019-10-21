@@ -7,6 +7,16 @@ namespace Maruamyu\Core\Orm;
  */
 class Column
 {
+    /** @var integer options bit value : skip on INSERT */
+    const OPTIONS_SKIP_ON_INSERT = 1;
+
+    /** @var integer options bit value : skip on UPDATE */
+    const OPTIONS_SKIP_ON_UPDATE = 2;
+
+    /** @var integer options bit value : skip on INSERT or UPDATE */
+    const OPTIONS_SKIP_ON_INSERT_OR_UPDATE = 3;
+
+
     /**
      * data type: boolean
      */
@@ -92,17 +102,24 @@ class Column
     protected $propertyName;
 
     /**
+     * @var int
+     */
+    protected $optionsValue;
+
+    /**
      * @param string $name column name
      * @param int $dataType data type (const of this class)
      * @param bool $isRequired true if required column
      * @param string $propertyName bind to property name
+     * @param integer $optionsValue
      */
-    public function __construct($name, $dataType = self::DATA_TYPE_STRING, $isRequired = false, $propertyName = null)
+    public function __construct($name, $dataType = self::DATA_TYPE_STRING, $isRequired = false, $propertyName = null, $optionsValue = 0)
     {
         $this->name = $name;
         $this->dataType = $dataType;
         $this->isRequired = !!($isRequired);
         $this->propertyName = $propertyName;
+        $this->optionsValue = $optionsValue;
     }
 
     /**
@@ -139,5 +156,21 @@ class Column
         } else {
             return $this->propertyName;
         }
+    }
+
+    /**
+     * @return boolean true if skip on INSERT
+     */
+    public function isSkipOnInsert()
+    {
+        return !!($this->optionsValue & static::OPTIONS_SKIP_ON_INSERT);
+    }
+
+    /**
+     * @return boolean true if skip on UPDATE
+     */
+    public function isSkipOnUpdate()
+    {
+        return !!($this->optionsValue & static::OPTIONS_SKIP_ON_UPDATE);
     }
 }
