@@ -13,7 +13,7 @@ class JsonCodec
      */
     public static function encode($value)
     {
-        $encodeOptions = JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES;
+        $encodeOptions = JSON_UNESCAPED_SLASHES;
         return json_encode($value, $encodeOptions);
     }
 
