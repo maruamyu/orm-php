@@ -70,7 +70,7 @@ abstract class EntityAbstract implements EntityInterface
                         $value = strval($value);
                         break;
                     case Column::DATA_TYPE_DATETIME:
-                        /** @var \DateTime $value */
+                        /** @var \DateTimeInterface $value */
                         $value = $value->format(\DateTime::ATOM);
                         break;
                 }

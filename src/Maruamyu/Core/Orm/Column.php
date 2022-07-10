@@ -92,7 +92,7 @@ class Column
     protected $dataType;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $isRequired;
 
@@ -159,7 +159,7 @@ class Column
     }
 
     /**
-     * @return boolean true if skip on INSERT
+     * @return bool true if skip on INSERT
      */
     public function isSkipOnInsert()
     {
@@ -167,7 +167,7 @@ class Column
     }
 
     /**
-     * @return boolean true if skip on UPDATE
+     * @return bool true if skip on UPDATE
      */
     public function isSkipOnUpdate()
     {

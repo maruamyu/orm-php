@@ -105,11 +105,8 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
     public function insert(EntityInterface $entity)
     {
-        static $statement = null;
-        if (!$statement) {
-            $query = static::buildInsertQuery($entity);
-            $statement = $this->prepare($query);
-        }
+        $query = static::buildInsertQuery($entity);
+        $statement = $this->prepare($query);
 
         $columnMap = $entity::getColumnMap();
         $autoIncrementColumnName = $entity::getAutoIncrementColumnName();
@@ -135,7 +132,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
             $errorMsg = 'insert failed. ($entity = ' . $entity . ')';
             throw new \RuntimeException($errorMsg);
         }
-        if (strlen($autoIncrementColumnName) > 0) {
+        if (!(is_null($autoIncrementColumnName)) && (strlen($autoIncrementColumnName) > 0)) {
             $entity->$autoIncrementColumnName = $this->getPDO()->lastInsertId();
         }
         return $entity;
@@ -324,11 +321,9 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
     public function delete(EntityInterface $entity)
     {
-        static $statement = null;
-        if (!$statement) {
-            $query = $this->buildDeleteQuery($entity);
-            $statement = $this->prepare($query);
-        }
+        $query = $this->buildDeleteQuery($entity);
+        $statement = $this->prepare($query);
+
         $columnMap = $entity::getColumnMap();
         foreach ($entity::getPrimaryKeyColumnNames() as $columnName) {
             $column = $columnMap[$columnName];
